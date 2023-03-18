@@ -1,0 +1,34 @@
+[
+  {
+    "nombre": "Purina One Mini Junior < 10kg",
+    "marca": "Purina",
+    "pesoMinimo": 0,
+    "pesoMaximo": 10,
+    "edadMinima": 0,
+    "edadMaxima": 6
+  },
+  {
+    "nombre": "Royal Canin Maxi Puppy > 10 kg",
+    "marca": "Royal Canin",
+    "pesoMinimo": 10,
+    "pesoMaximo": 150,
+    "edadMinima": 0,
+    "edadMaxima": 6
+  },
+  {
+    "nombre": "Purina Pro Plan small and mini adult",
+    "marca": "Purina Pro Plan",
+    "pesoMinimo": 0,
+    "pesoMaximo": 15,
+    "edadMinima": 6,
+    "edadMaxima": 500
+  },
+  {
+    "nombre": "Pedigree adulto - vital protection",
+    "marca": "Pedigree",
+    "pesoMinimo": 15,
+    "pesoMaximo": 150,
+    "edadMinima": 6,
+    "edadMaxima": 500
+  }
+]

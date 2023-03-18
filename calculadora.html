@@ -23,21 +23,34 @@
     <div class="logo">
       <img class="logoImg" src="./assets/logo.png" alt="" />
     </div>
-    <p class="intro">
-      Sabemos que tu mascota es tu mejor amigo, por lo que es muy importante que
-      coma la cantidad de comida apropiada para su peso y edad, y así cuidar su
-      salud.
-      <br />
-      <br />
-      Hemos creado una herramienta que te ayudará a calcular la
-      <b>cantidad de gramos de comida</b> que le deberías administrar a tu
-      mascota <b>por día</b>.
-    </p>
+    <form id="formulario">
+      <div class="formBox">
+        <label class="formText" for="nombre">Nombre del perro: </label>
+        <input class="formCont" type="text" id="nombre" />
+      </div>
+
+      <div class="formBox">
+        <label class="formText" for="peso">Peso del perro: </label>
+        <input class="formCont" type="number" step="any" id="peso" />
+      </div>
+
+      <div class="formBox">
+        <label class="formText" for="edad">Edad del perro (en meses): </label>
+        <input class="formCont" type="number" step="any" id="edad" />
+      </div>
+      <div class="botonBox">
+        <button class="boton">Calcular ración</button>
+      </div>
+    </form>
+
+    <div id="cardsPerros"></div>
+
     <div class="botonBox">
-      <button class="boton">
-        <a href="./calculadora.html"> Prueba la calculadora </a>
-      </button>
+      <button class="boton" id="borrarPerros">Borrar Perros</button>
     </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="./main.js"></script>
 
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 319">
       <path

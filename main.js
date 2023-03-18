@@ -1,132 +1,179 @@
-// let pesoPerro = parseInt(
-//   prompt("¿Cuántos kilos pesa tu perro? - Mínimo 0 / máximo 150")
-// );
-// while (isNaN(pesoPerro) || pesoPerro < 0 || pesoPerro >= 150) {
-//   pesoPerro = parseInt(
-//     prompt("¿Cuántos kilos pesa tu perro? - Mínimo 0 / máximo 150")
-//   );
-// }
+class Perro {
+  constructor(nombre, peso, edad, id) {
+    this.nombre = nombre;
+    this.peso = peso;
+    this.edad = edad;
+    this.gramos = 0;
+    this.porciones = 0;
+    this.id = id;
+  }
+}
 
-// let edadPerro = parseInt(
-//   prompt("¿Cuántos meses tiene tu perro? - Mínimo 0 / máximo 500")
-// );
-// while (isNaN(edadPerro) || edadPerro < 0 || edadPerro >= 500) {
-//   edadPerro = parseInt(
-//     prompt("¿Cuántos meses tiene tu perro? - Mínimo 0 / máximo 500")
-//   );
-// }
+const formulario = document.getElementById("formulario");
+const cardsPerros = document.getElementById("cardsPerros");
 
-// // FUNCIÓN CACHORRO
-// const medidaCachorro = 0.01;
-// function porcentajeCachorro(pesoPerro, medidaCachorro) {
-//   let resultadoCachorro = pesoPerro * medidaCachorro;
-//   return resultadoCachorro;
-// }
+//CARDS
 
-// // FUNCIÓN ADULTO
-// const medidaAdulto = 0.025;
-// function porcentajeAdulto(pesoPerro, medidaAdulto) {
-//   let resultadoAdulto = pesoPerro * medidaAdulto;
-//   return resultadoAdulto;
-// }
+const crearCardPerro = (perro, cardsPerros) => {
+  const card = document.createElement("div");
+  card.className = "card";
+  card.innerHTML = `<div class="iconBox" onclick="eliminarPerro(${perro.id})"> <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="#283618" 
+                              class="bi bi-x-circle-fill" viewBox="0 0 16 16">
+                              <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM5.354 4.646a.5.5 0 1 
+                              0-.708.708L7.293 8l-2.647 2.646a.5.5 0 0 0 .708.708L8 8.707l2.646 
+                              2.647a.5.5 0 0 0 .708-.708L8.707 8l2.647-2.646a.5.5 0 0 0-.708-.708L8 
+                              7.293 5.354 4.646z"/> </svg> </div>
+                              <p class = "dogName">${perro.nombre} </p> 
+                              <p class = "dogInfo"><b>Peso</b>: ${perro.peso} </p>
+                              <p class = "dogInfo"><b>Edad</b>: ${perro.edad} </p>
+                              <p class = "dogInfo"><b>Gramos al día</b>: ${perro.gramos} </p>
+                              <p class = "dogInfo"><b>Porciones al día</b>: ${perro.porciones} </p>
+                              <button class="boton" onclick="mostrarRecomendado(${perro.id})">Alimento recomendado</button>
+                              `;
+  cardsPerros.appendChild(card);
+};
 
-// let gramos = 0;
-// let porciones = 0;
+let arrayPerros = [];
+if (localStorage.getItem("arrayPerros")) {
+  arrayPerros = JSON.parse(localStorage.getItem("arrayPerros"));
+  arrayPerros.forEach((perro) => {
+    crearCardPerro(perro, cardsPerros);
+  });
+}
 
-// // CONDICIONALES
-// if (edadPerro <= 6) {
-//   porcentajeCachorro(pesoPerro, medidaCachorro);
-//   gramos = porcentajeCachorro(pesoPerro, medidaCachorro);
-// } else {
-//   porcentajeAdulto(pesoPerro, medidaAdulto);
-//   gramos = porcentajeAdulto(pesoPerro, medidaAdulto);
-// }
+//FORMULARIO
+formulario.addEventListener("submit", (e) => {
+  e.preventDefault();
+  const nombrePerro = document.getElementById("nombre");
+  const pesoPerro = document.getElementById("peso");
+  const edadPerro = document.getElementById("edad");
 
-// if (edadPerro <= 2) {
-//   porciones = "4 a 6";
-// } else if (edadPerro == 3) {
-//   porciones = "4";
-// } else if (edadPerro > 3 && edadPerro <= 6) {
-//   porciones = "2 a 3";
-// } else {
-//   porciones = "2";
-// }
+  if (
+    nombrePerro.value != "" &&
+    pesoPerro.value != "" &&
+    edadPerro.value != ""
+  ) {
+    const perroIngresado = new Perro(
+      nombrePerro.value,
+      pesoPerro.value,
+      edadPerro.value,
+      Math.floor(Math.random() * Date.now())
+    );
+    arrayPerros.push(perroIngresado);
+    formulario.reset();
 
-// class Alimentos {
-//   constructor(nombre, marca, pesoMinimo, pesoMaximo, edadMinima, edadMaxima) {
-//     this.nombre = nombre;
-//     this.marca = marca;
-//     this.pesoMinimo = pesoMinimo;
-//     this.pesoMaximo = pesoMaximo;
-//     this.edadMinima = edadMinima;
-//     this.edadMaxima = edadMaxima;
-//   }
-// }
+    calculoDeRacion(arrayPerros);
+    localStorage.setItem("arrayPerros", JSON.stringify(arrayPerros));
 
-// const alimentoCachorroMini = new Alimentos(
-//   "Purina One Mini Junior < 10kg",
-//   "Purina",
-//   0,
-//   10,
-//   0,
-//   6
-// );
+    crearCardPerro(perroIngresado, cardsPerros);
+  } else {
+    Swal.fire({
+      title: "Por favor, ingrese todos los datos solicitados.",
+      color: "black",
+      text: "Intente nuevamente.",
+      icon: "warning",
+      iconColor: "#606c38",
+      backdrop: "rgba(0, 0, 0, 0.39)",
+      background: "#fefae0",
+      confirmButtonColor: "#283618",
+    });
+  }
+});
 
-// const alimentoCachorroGrande = new Alimentos(
-//   "Royal Canin Maxi Puppy > 10 kg",
-//   "Royal Canin",
-//   10,
-//   150,
-//   0,
-//   6
-// );
+// Función cachorro para el cálculo.
+const medidaCachorro = 0.01;
+function porcentajeCachorro(pesoPerro, medidaCachorro) {
+  let resultadoCachorro = pesoPerro * medidaCachorro;
+  return resultadoCachorro;
+}
 
-// const alimentoAdultoMini = new Alimentos(
-//   "Purina Pro Plan small and mini adult",
-//   "Purina Pro Plan",
-//   0,
-//   15,
-//   6,
-//   500
-// );
+// Función adulto para el cálculo.
+const medidaAdulto = 0.025;
+function porcentajeAdulto(pesoPerro, medidaAdulto) {
+  let resultadoAdulto = pesoPerro * medidaAdulto;
+  return resultadoAdulto;
+}
 
-// const alimentoAdultoGrande = new Alimentos(
-//   "Pedigree adulto - vital protection",
-//   "Pedigree",
-//   15,
-//   150,
-//   6,
-//   500
-// );
+//CÁLCULO FINAL
+const calculoDeRacion = (arrayPerros) => {
+  let gramos = 0;
+  let porciones = 0;
 
-// const arrayAlimentos = [
-//   alimentoCachorroMini,
-//   alimentoCachorroGrande,
-//   alimentoAdultoMini,
-//   alimentoAdultoGrande,
-// ];
+  let perro = arrayPerros[arrayPerros.length - 1];
+  if (perro.edad <= 6) {
+    gramos = porcentajeCachorro(perro.peso, medidaCachorro);
+  } else {
+    gramos = porcentajeAdulto(perro.peso, medidaAdulto);
+  }
 
-// let alimentoRecomendado;
+  if (perro.edad <= 2) {
+    porciones = "4 a 6";
+  } else if (perro.edad == 3) {
+    porciones = "4";
+  } else if (perro.edad > 3 && perro.edad <= 6) {
+    porciones = "2 a 3";
+  } else {
+    porciones = "2";
+  }
 
-// arrayAlimentos.forEach((recomendado) => {
-//   if (
-//     pesoPerro >= recomendado.pesoMinimo &&
-//     pesoPerro < recomendado.pesoMaximo &&
-//     edadPerro >= recomendado.edadMinima &&
-//     edadPerro < recomendado.edadMaxima
-//   ) {
-//     alimentoRecomendado = recomendado;
-//   }
-// });
+  perro.gramos = gramos.toFixed(3);
+  perro.porciones = porciones;
+};
 
-// alert(
-//   "Tu perro debería comer " +
-//     gramos.toFixed(3) +
-//     " kilos por día dividido en " +
-//     porciones +
-//     " porciones. Te recomendamos " +
-//     alimentoRecomendado.nombre +
-//     ", de " +
-//     alimentoRecomendado.marca +
-//     ", para que tu perro tenga todos los nutrientes necesarios para una vida más saludable."
-// );
+//ALIMENTO RECOMENDADOS
+let arrayAlimentos = [];
+const arrayAlimentosUrl = "JSON/alimentos.json";
+
+fetch(arrayAlimentosUrl)
+  .then((respuesta) => respuesta.json())
+  .then((datos) => {
+    arrayAlimentos = datos;
+  })
+  .catch((error) => console.log(error));
+
+let alimentoRecomendado;
+
+const mostrarRecomendado = (id) => {
+  let perro = arrayPerros.find((perro) => perro.id === id);
+  if (perro) {
+    arrayAlimentos.forEach((recomendado) => {
+      if (
+        perro.peso >= recomendado.pesoMinimo &&
+        perro.peso < recomendado.pesoMaximo &&
+        perro.edad >= recomendado.edadMinima &&
+        perro.edad < recomendado.edadMaxima
+      ) {
+        alimentoRecomendado = recomendado;
+        let text = `Para ${perro.nombre} te recomendamos ${alimentoRecomendado.nombre}, de ${alimentoRecomendado.marca},
+      para que tu perro tenga todos los nutrientes necesarios para una vida más saludable.`;
+        Swal.fire({
+          title: "Alimento recomendado:",
+          color: "black",
+          text: text,
+          backdrop: "rgba(0, 0, 0, 0.39)",
+          background: "#fefae0",
+          confirmButtonColor: "#283618",
+        });
+      }
+    });
+  }
+};
+
+const eliminarPerro = (id) => {
+  let perro = arrayPerros.find((perro) => perro.id === id);
+  const indice = arrayPerros.indexOf(perro);
+  arrayPerros.splice(indice, 1);
+  cardsPerros.innerHTML = "";
+  arrayPerros.forEach((perro) => {
+    crearCardPerro(perro, cardsPerros);
+  });
+  localStorage.setItem("arrayPerros", JSON.stringify(arrayPerros));
+};
+
+const borrarPerros = document.getElementById("borrarPerros");
+
+borrarPerros.addEventListener("click", () => {
+  arrayPerros = [];
+  localStorage.clear();
+  cardsPerros.innerHTML = "";
+});
