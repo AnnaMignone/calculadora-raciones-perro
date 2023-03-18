@@ -26,7 +26,7 @@ svg {
 .logoImg {
   width: 50%;
   padding-right: 15px;
-  padding-left: 20vw;
+  padding-left: 25vw;
   margin: 0px;
 }
 
@@ -91,6 +91,8 @@ svg {
   font-weight: 800;
   font-family: "Playfair Display", serif;
   padding: 10px 15px;
+  margin-right: auto;
+  margin-left: auto;
 }
 
 .boton:hover {
@@ -102,8 +104,10 @@ svg {
 }
 
 #cardsPerros {
+  width: 100vw;
   display: flex;
   justify-content: center;
+  flex-wrap: wrap;
 }
 
 .card {
@@ -129,28 +133,6 @@ svg {
   width: auto;
   color: black;
   margin-bottom: 25px;
-  font-family: "Playfair Display", serif;
-  font-weight: 500;
-}
-
-#listaAlimentos {
-  width: 100vw;
-  height: auto;
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
-  margin: 70px 0px 10px 0px;
-}
-
-.cardAlimento {
-  border: solid black;
-  border-radius: 4px;
-  width: 100vw;
-  margin: 10px 0px 10px 0px;
-  padding: 10px;
-}
-
-.textAlimento {
   font-family: "Playfair Display", serif;
   font-weight: 500;
 }
